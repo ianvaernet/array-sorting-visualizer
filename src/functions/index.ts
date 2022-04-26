@@ -1,0 +1,1 @@
+export { generateArrayOfRandomNumbers } from './generateArrayOfRandomNumbers';
