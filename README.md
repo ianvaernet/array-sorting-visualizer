@@ -1,6 +1,6 @@
 # Array sorting visualizer
 
-Show in a UI different array sorting algorithms
+Web app to show in an animated UI different array sorting algorithms.
 
 ## Available Scripts
 
