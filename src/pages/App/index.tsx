@@ -4,6 +4,7 @@ import { LabeledInput } from '../../components/LabeledInput';
 import { generateArrayOfRandomNumbers } from '../../functions';
 import { SortingAlgorithms } from '../../types';
 import style from './style.module.css';
+import { Test } from './test';
 
 export const App = () => {
   const [arrayLength, setArrayLength] = useState<number>(1);
@@ -17,6 +18,7 @@ export const App = () => {
 
   return (
     <div className={style.app_container}>
+      <Test/>
       <header className={style.header}>
         <div className={style.arrayLengthInput}>
           <LabeledInput label="Enter the array length:">
