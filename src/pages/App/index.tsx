@@ -1,25 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { insertionSort } from '../../algorithms';
 import { ArrayElement, Button, Input, Select } from '../../components';
 import { LabeledInput } from '../../components/LabeledInput';
 import { generateArrayOfRandomNumbers } from '../../functions';
-import { SortingAlgorithms } from '../../types';
+import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 import { Test } from './test';
-import { motion } from 'framer-motion';
 
 export const App = () => {
-  const [arrayLength, setArrayLength] = useState<number>(1);
-  const [array, setArray] = useState<number[]>([]);
+  const [arrayLength, setArrayLength] = useState<number>(0);
+  const [array, setArray] = useState<Block[]>([]);
 
-  useEffect(() => {
-    setArray(generateArrayOfRandomNumbers({ length: arrayLength }));
-  }, [arrayLength]);
+  const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
+    const length = parseInt(target.value);
+    setArrayLength(length);
+    setArray(generateArrayOfRandomNumbers({ length }));
+  };
 
-  const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => setArrayLength(parseInt(target.value));
+  const sortArray = () => {
+    insertionSort(array, setArray);
+  };
 
   return (
     <div className={style.app_container}>
-      <Test/>
+      <Test />
       <header className={style.header}>
         <div className={style.arrayLengthInput}>
           <LabeledInput label="Enter the array length:">
@@ -29,15 +33,17 @@ export const App = () => {
         <LabeledInput label="Select the sorting algorithm:">
           <Select id="sortingAlgorithmSelect" options={Object.values(SortingAlgorithms)} />
         </LabeledInput>
-        <motion.div className={style.array_container}
-        animate={{x:200}}>
-          {array.map((element) => (
-            <ArrayElement element={element} />
-          ))}
-        </motion.div>
-        <Button>Play</Button>
+        <div>
+          <Button onClick={sortArray}>Play</Button>
+        </div>
       </header>
-      <main></main>
+      <main>
+        <div className={style.array_container}>
+          {array.map(({ key, number, x, y }) => (
+            <ArrayElement key={key} number={number} x={x} y={y} />
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
