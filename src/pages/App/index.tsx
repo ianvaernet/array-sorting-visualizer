@@ -5,6 +5,7 @@ import { generateArrayOfRandomNumbers } from '../../functions';
 import { SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 import { Test } from './test';
+import { motion } from 'framer-motion';
 
 export const App = () => {
   const [arrayLength, setArrayLength] = useState<number>(1);
@@ -28,11 +29,12 @@ export const App = () => {
         <LabeledInput label="Select the sorting algorithm:">
           <Select id="sortingAlgorithmSelect" options={Object.values(SortingAlgorithms)} />
         </LabeledInput>
-        <div className={style.array_container}>
+        <motion.div className={style.array_container}
+        animate={{x:200}}>
           {array.map((element) => (
             <ArrayElement element={element} />
           ))}
-        </div>
+        </motion.div>
         <Button>Play</Button>
       </header>
       <main></main>
