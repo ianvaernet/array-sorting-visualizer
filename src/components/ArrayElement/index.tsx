@@ -6,11 +6,12 @@ type Props = {
   number: number;
   x: number;
   y: number;
+  animationDelay: number;
 };
 
-export const ArrayElement: React.FC<Props> = ({ number, x, y }: Props) => {
+export const ArrayElement: React.FC<Props> = ({ number, x, y, animationDelay }: Props) => {
   return (
-    <motion.div className={style.container} animate={{ x, y }} transition={{ delay: 0.05 }}>
+    <motion.div className={style.container} animate={{ x, y }} transition={{ delay: animationDelay / 100 }}>
       <p>{number}</p>
     </motion.div>
   );
