@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrayElement, Header, Title } from '../../components';
+import { ArrayBlock, Header, Title } from '../../components';
 import { Block } from '../../types';
 import style from './style.module.css';
 
@@ -24,7 +24,7 @@ export const App = () => {
       <main>
         <div className={style.array_container}>
           {array.map(({ key, number, x, y }) => (
-            <ArrayElement key={key} number={number} x={x} y={y} animationDelay={animationDelay} />
+            <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} />
           ))}
         </div>
       </main>
