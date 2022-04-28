@@ -4,39 +4,44 @@ import { sleep } from './sleep';
 const WIDTH = 65;
 
 type UpdateArray = (blocksArray: Block[]) => ReturnType<Sleep>;
-type MoveDirection = (blocksArray: Block[], position: number, updateBlocksArray: UpdateArray) => ReturnType<UpdateArray>;
+type MoveDirection = (
+  blocksArray: Block[],
+  position: number,
+  updateBlocksArray: UpdateArray,
+  movements?: number
+) => ReturnType<UpdateArray>;
 
 const updateBlocksArray: UpdateBlocksArray = (blocksArray, setArray, animationDelay) => {
   setArray(blocksArray.slice());
   return sleep(40 * animationDelay);
 };
 
-const moveUp: MoveDirection = (blocksArray, position, updateBlocksArray) => {
-  blocksArray[position].y -= WIDTH;
+const moveUp: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].y -= WIDTH * movements;
   return updateBlocksArray(blocksArray);
 };
 
-const moveDown: MoveDirection = (blocksArray, position, updateBlocksArray) => {
-  blocksArray[position].y += WIDTH;
+const moveDown: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].y += WIDTH * movements;
   return updateBlocksArray(blocksArray);
 };
 
-const moveLeft: MoveDirection = (blocksArray, position, updateBlocksArray) => {
-  blocksArray[position].x -= WIDTH;
+const moveLeft: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].x -= WIDTH * movements;
   return updateBlocksArray(blocksArray);
 };
 
-const moveRight: MoveDirection = (blocksArray, position, updateBlocksArray) => {
-  blocksArray[position].x += WIDTH;
+const moveRight: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].x += WIDTH * movements;
   return updateBlocksArray(blocksArray);
 };
 
 export const useMove: UseMove = (blocksArray, setArray, animationDelay) => {
   const updateArray = () => updateBlocksArray(blocksArray, setArray, animationDelay);
   return {
-    moveUp: (position) => moveUp(blocksArray, position, updateArray),
-    moveDown: (position) => moveDown(blocksArray, position, updateArray),
-    moveLeft: (position) => moveLeft(blocksArray, position, updateArray),
-    moveRight: (position) => moveRight(blocksArray, position, updateArray),
+    moveUp: (position, movements) => moveUp(blocksArray, position, updateArray, movements),
+    moveDown: (position, movements) => moveDown(blocksArray, position, updateArray, movements),
+    moveLeft: (position, movements) => moveLeft(blocksArray, position, updateArray, movements),
+    moveRight: (position, movements) => moveRight(blocksArray, position, updateArray, movements),
   };
 };

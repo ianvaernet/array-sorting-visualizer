@@ -9,7 +9,7 @@ export const App = () => {
 
   const handleAnimationDelayChange = ({ target }: { target: HTMLInputElement }) => {
     const delayLevel = parseInt(target.value);
-    if (delayLevel > 1) setAnimationDelay(delayLevel);
+    if (delayLevel > 0) setAnimationDelay(delayLevel);
   };
 
   return (
