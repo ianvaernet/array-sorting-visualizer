@@ -12,7 +12,7 @@ export type Block = {
   y: number;
 };
 
-export type Move = (position: number) => ReturnType<UpdateBlocksArray>;
+export type Move = (position: number, movements?: number) => ReturnType<UpdateBlocksArray>;
 
 export type Sleep = (miliseconds: number) => Promise<void>;
 
