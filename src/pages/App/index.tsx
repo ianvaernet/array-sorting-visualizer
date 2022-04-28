@@ -1,49 +1,33 @@
 import { useState } from 'react';
-import BubbleSort from '../../algorithms/BubbleSort';
-import { ArrayElement, Button, Input, Select } from '../../components';
-import { LabeledInput } from '../../components/LabeledInput';
-import { generateArrayOfRandomNumbers } from '../../functions';
-import { Block, SortingAlgorithms } from '../../types';
-import style from './style.module.css';
-import { Test } from './test';
-
+import { ArrayBlock, Header, Title } from '../../components';
+import { Block } from '../../types';
+import './style.module.css';
+import { motion } from 'framer-motion';
 
 export const App = () => {
-  const [arrayLength, setArrayLength] = useState<number>(0);
   const [array, setArray] = useState<Block[]>([]);
+  const [animationDelay, setAnimationDelay] = useState(1);
 
-  const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
-    const length = parseInt(target.value);
-    setArrayLength(length);
-    setArray(generateArrayOfRandomNumbers({ length }));
-  };
-
-  const sortArray = () => {
-    BubbleSort(array, setArray);
+  const handleAnimationDelayChange = ({ target }: { target: HTMLInputElement }) => {
+    const delayLevel = parseInt(target.value);
+    if (delayLevel > 1) setAnimationDelay(delayLevel);
   };
 
   return (
-    <div className={style.app_container}>
-      <Test />
-      <header className={style.header}>
-        <div className={style.arrayLengthInput}>
-          <LabeledInput label="Enter the array length:">
-            <Input id="arrayLengthInput" type="number" value={arrayLength} onChange={handleArrayLengthChange} />
-          </LabeledInput>
-        </div>
-        <LabeledInput label="Select the sorting algorithm:">
-          <Select id="sortingAlgorithmSelect" options={Object.values(SortingAlgorithms)} />
-        </LabeledInput>
-        <div>
-          <Button onClick={sortArray}>Play</Button>
-        </div>
-      </header>
+    <div className="app_container">
+      <Title/>
+      <Header
+        array={array}
+        setArray={setArray}
+        animationDelay={animationDelay}
+        handleAnimationDelayChange={handleAnimationDelayChange}
+      />
       <main>
-        <div className={style.array_container}>
+        <motion.div initial={{x:200}}>
           {array.map(({ key, number, x, y }) => (
-            <ArrayElement key={key} number={number} x={x} y={y} />
+            <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} />
           ))}
-        </div>
+        </motion.div>
       </main>
     </div>
   );

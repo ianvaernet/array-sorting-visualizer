@@ -1,31 +1,24 @@
 import { Block } from '../types';
-import { sleep } from '../functions/sleep';
+import { moveDown, moveLeft, moveRight, moveUp } from '../functions';
 
-const WIDTH = 65;
-
-export const insertionSort = async (inputArray: Block[], setArray: React.Dispatch<React.SetStateAction<Block[]>>) => {
-  const renderedArray = inputArray.slice();
-  const array = inputArray.map(({ number }) => number);
-  for (let indexToSort = 1; indexToSort < array.length; indexToSort++) {
-    let elementToSort = array[indexToSort];
-    renderedArray[indexToSort].y += WIDTH;
-    setArray(renderedArray.slice());
-    await sleep(200);
+export const insertionSort = async (
+  blocksArray: Block[],
+  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
+  animationDelay: number
+) => {
+  const arrayToSort = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
+  for (let indexToSort = 1; indexToSort < arrayToSort.length; indexToSort++) {
+    let elementToSort = arrayToSort[indexToSort];
+    await moveDown(blocksArray, elementToSort.originalPosition, setArray, animationDelay);
     let j = indexToSort - 1;
-    while (j > -1 && elementToSort < array[j]) {
-      array[j + 1] = array[j];
-      renderedArray[j].x += WIDTH;
-      setArray(renderedArray.slice());
-      await sleep(200);
-      renderedArray[indexToSort].x -= WIDTH;
-      setArray(renderedArray.slice());
-      await sleep(200);
+    while (j > -1 && elementToSort.number < arrayToSort[j].number) {
+      arrayToSort[j + 1] = arrayToSort[j];
+      await moveRight(blocksArray, arrayToSort[j].originalPosition, setArray, animationDelay);
+      await moveLeft(blocksArray, elementToSort.originalPosition, setArray, animationDelay);
       j--;
     }
-    array[j + 1] = elementToSort;
-    renderedArray[indexToSort].y -= WIDTH;
-    setArray(renderedArray.slice());
-    await sleep(200);
+    arrayToSort[j + 1] = elementToSort;
+    await moveUp(blocksArray, elementToSort.originalPosition, setArray, animationDelay);
   }
-  return renderedArray;
+  return blocksArray;
 };

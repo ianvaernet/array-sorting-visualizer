@@ -2,15 +2,12 @@
   margin: 30px 30px;
 }
 
-.header {
-  margin-bottom: 10px;
-}
-
-.arrayLengthInput {
-  margin-bottom: 20px;
+main {
+  white-space: nowrap;
 }
 
 .array_container {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+

@@ -1,34 +1,29 @@
-import { sleep } from "../functions/sleep";
-import { Block } from "../types";
 
-const WIDTH = 65;
-
-const BubbleSort = async (inputArray: Block[], setArray: React.Dispatch<React.SetStateAction<Block[]>>) => {
-
-  const renderedArray = inputArray.slice();
-  const array = inputArray.map(({ number }) => number);
-  for (let indexToSort = 0; indexToSort < array.length; indexToSort++) {
-    let elementToSort = array[indexToSort];
-    renderedArray[indexToSort].y += WIDTH;
-    setArray(renderedArray.slice());
-    await sleep(200);
-    let j = indexToSort - 1;
-    while (j >= 0 && elementToSort < array[j]) {
-      array[j + 1] = array[j];
-      renderedArray[j].x += WIDTH;
-      setArray(renderedArray.slice());
-      await sleep(200);
-      renderedArray[indexToSort].x -= WIDTH;
-      setArray(renderedArray.slice());
-      await sleep(200);
-      j--;
-    }
-    array[j + 1] = elementToSort;
-    renderedArray[indexToSort].y -= WIDTH;
-    setArray(renderedArray.slice());
-    await sleep(200);
+const swap = (arr: number[], i: number, j: number) => {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
   }
-  return renderedArray
+
+const BubbleSort = (ArrayElement: number[]) => {
+
+    const arraCopy = ArrayElement.slice() 
+    const neworder = []
+
+    let i, j
+
+    for (i = 0; i < arraCopy.length; i++) {
+        for (j = 0; j < arraCopy.length - i - 1; j++) {
+        neworder.push([j, j + 1, null, null]) 
+        if (arraCopy[j] > arraCopy[j + 1]) {
+            swap(arraCopy, j, j + 1)
+            neworder.push([j, j + 1, arraCopy.slice(), null]) 
+        }
+        }
+        neworder.push([null, null, null, j]) 
+    }
+
+  return neworder
 
 }
 
