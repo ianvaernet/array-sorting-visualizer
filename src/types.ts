@@ -11,3 +11,19 @@ export type Block = {
   x: number;
   y: number;
 };
+
+export type Move = (position: number) => ReturnType<UpdateBlocksArray>;
+
+export type Sleep = (miliseconds: number) => Promise<void>;
+
+export type UseMove = (
+  blocksArray: Block[],
+  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
+  animationDelay: number
+) => { moveUp: Move; moveDown: Move; moveLeft: Move; moveRight: Move };
+
+export type UpdateBlocksArray = (
+  blocksArray: Block[],
+  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
+  animationDelay: number
+) => ReturnType<Sleep>;
