@@ -9,4 +9,9 @@ export const generateArrayOfRandomNumbers = ({
 }) =>
   Array(length)
     .fill(0)
-    .map(() => Math.round(Math.random() * (maxAllowedNumber - minAllowedNumber) + minAllowedNumber));
+    .map((_, index) => ({
+      key: index,
+      number: Math.round(Math.random() * (maxAllowedNumber - minAllowedNumber) + minAllowedNumber),
+      x: 0,
+      y: 0,
+    }));

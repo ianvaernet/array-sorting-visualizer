@@ -1,14 +1,17 @@
 import React from 'react';
 import style from './style.module.css';
+import { motion } from 'framer-motion';
 
 type Props = {
-  element: number;
+  number: number;
+  x: number;
+  y: number;
 };
 
-export const ArrayElement: React.FC<Props> = ({ element }: Props) => {
+export const ArrayElement: React.FC<Props> = ({ number, x, y }: Props) => {
   return (
-    <div className={style.container}>
-      <p>{element}</p>
-    </div>
+    <motion.div className={style.container} animate={{ x, y }} transition={{ delay: 0.05 }}>
+      <p>{number}</p>
+    </motion.div>
   );
 };

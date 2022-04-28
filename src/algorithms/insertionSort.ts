@@ -1,19 +1,18 @@
-import { sleep } from "../functions/sleep";
-import { Block } from "../types";
+import { Block } from '../types';
+import { sleep } from '../functions/sleep';
 
 const WIDTH = 65;
 
-const BubbleSort = async (inputArray: Block[], setArray: React.Dispatch<React.SetStateAction<Block[]>>) => {
-
+export const insertionSort = async (inputArray: Block[], setArray: React.Dispatch<React.SetStateAction<Block[]>>) => {
   const renderedArray = inputArray.slice();
   const array = inputArray.map(({ number }) => number);
-  for (let indexToSort = 0; indexToSort < array.length; indexToSort++) {
+  for (let indexToSort = 1; indexToSort < array.length; indexToSort++) {
     let elementToSort = array[indexToSort];
     renderedArray[indexToSort].y += WIDTH;
     setArray(renderedArray.slice());
     await sleep(200);
     let j = indexToSort - 1;
-    while (j >= 0 && elementToSort < array[j]) {
+    while (j > -1 && elementToSort < array[j]) {
       array[j + 1] = array[j];
       renderedArray[j].x += WIDTH;
       setArray(renderedArray.slice());
@@ -28,8 +27,5 @@ const BubbleSort = async (inputArray: Block[], setArray: React.Dispatch<React.Se
     setArray(renderedArray.slice());
     await sleep(200);
   }
-  return renderedArray
-
-}
-
-export default BubbleSort
+  return renderedArray;
+};

@@ -4,3 +4,10 @@ export enum SortingAlgorithms {
   InsertionSort = 'Insertion Sort',
   SelectionSort = 'Selection Sort',
 }
+
+export type Block = {
+  key: number;
+  number: number;
+  x: number;
+  y: number;
+};
