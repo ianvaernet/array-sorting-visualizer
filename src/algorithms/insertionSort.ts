@@ -1,24 +1,20 @@
-import { Block } from '../types';
-import { moveDown, moveLeft, moveRight, moveUp } from '../functions';
+import { Block, UseMove } from '../types';
 
-export const insertionSort = async (
-  blocksArray: Block[],
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
-  animationDelay: number
-) => {
-  const arrayToSort = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
-  for (let indexToSort = 1; indexToSort < arrayToSort.length; indexToSort++) {
-    let elementToSort = arrayToSort[indexToSort];
-    await moveDown(blocksArray, elementToSort.originalPosition, setArray, animationDelay);
-    let j = indexToSort - 1;
-    while (j > -1 && elementToSort.number < arrayToSort[j].number) {
-      arrayToSort[j + 1] = arrayToSort[j];
-      await moveRight(blocksArray, arrayToSort[j].originalPosition, setArray, animationDelay);
-      await moveLeft(blocksArray, elementToSort.originalPosition, setArray, animationDelay);
-      j--;
+export const insertionSort = async (blocksArray: Block[], { moveUp, moveDown, moveLeft, moveRight }: ReturnType<UseMove>) => {
+  // The blocksArray cannot be reordered because the position of its elements is changed by animations
+  const array = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
+  for (let indexToSort = 1; indexToSort < array.length; indexToSort++) {
+    let elementToSort = array[indexToSort];
+    await moveDown(elementToSort.originalPosition);
+    let indexToCompare = indexToSort - 1;
+    while (indexToCompare > -1 && elementToSort.number < array[indexToCompare].number) {
+      array[indexToCompare + 1] = array[indexToCompare];
+      await moveRight(array[indexToCompare].originalPosition);
+      await moveLeft(elementToSort.originalPosition);
+      indexToCompare--;
     }
-    arrayToSort[j + 1] = elementToSort;
-    await moveUp(blocksArray, elementToSort.originalPosition, setArray, animationDelay);
+    array[indexToCompare + 1] = elementToSort;
+    await moveUp(elementToSort.originalPosition);
   }
   return blocksArray;
 };

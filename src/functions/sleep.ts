@@ -1,1 +1,3 @@
-export const sleep = (miliseconds: number) => new Promise((resolve) => setTimeout(resolve, miliseconds));
+import { Sleep } from '../types';
+
+export const sleep: Sleep = (miliseconds) => new Promise((resolve) => setTimeout(resolve, miliseconds));

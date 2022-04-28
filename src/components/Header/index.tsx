@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { insertionSort } from '../../algorithms';
 import { Button, Input, LabeledInput, Select } from '../../components';
-import { generateArrayOfRandomNumbers } from '../../functions';
+import { generateArrayOfRandomNumbers, useMove } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 
@@ -15,6 +15,7 @@ type Props = {
 export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handleAnimationDelayChange }: Props) => {
   const [arrayLength, setArrayLength] = useState<number>(0);
   const [isAnimationRunning, setAnimationRunning] = useState(false);
+  const move = useMove(array, setArray, animationDelay);
 
   const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
     const length = parseInt(target.value);
@@ -24,7 +25,7 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
 
   const sortArray = () => {
     setAnimationRunning(true);
-    insertionSort(array, setArray, animationDelay).then(() => setAnimationRunning(false));
+    insertionSort(array, move).then(() => setAnimationRunning(false));
   };
 
   return (
