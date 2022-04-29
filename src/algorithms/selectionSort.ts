@@ -22,9 +22,9 @@ export const selectionSort = async (
     }
     if (minElementIndex !== indexToSort) {
       const positionsToMove = minElementIndex - indexToSort;
-      await moveLeft(array[minElementIndex].originalPosition, positionsToMove);
-      await moveUp(array[minElementIndex].originalPosition);
+      moveLeft(array[minElementIndex].originalPosition, positionsToMove);
       await moveRight(array[indexToSort].originalPosition, positionsToMove);
+      moveUp(array[minElementIndex].originalPosition);
     }
     await moveDown(array[indexToSort].originalPosition);
     swap(array, minElementIndex, indexToSort);

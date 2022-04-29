@@ -16,5 +16,4 @@ export const insertionSort = async (blocksArray: Block[], { moveUp, moveDown, mo
     array[indexToCompare + 1] = elementToSort;
     await moveUp(elementToSort.originalPosition);
   }
-  return blocksArray;
 };
