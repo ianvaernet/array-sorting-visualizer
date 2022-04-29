@@ -5,6 +5,11 @@
   padding: 0px 20px;
   width: 65px;
   justify-content: center;
-  background: #D9B2A9;
+  background: #d9b2a9;
   color: white;
+}
+
+.focus {
+  background: yellow;
+  color: #000;
 }

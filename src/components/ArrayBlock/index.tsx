@@ -7,11 +7,17 @@ type Props = {
   x: number;
   y: number;
   animationDelay: number;
+  classNames?: string[];
 };
 
-export const ArrayBlock: React.FC<Props> = ({ number, x, y, animationDelay }: Props) => {
+export const ArrayBlock: React.FC<Props> = ({ number, x, y, animationDelay, classNames = [] }: Props) => {
   return (
-    <motion.div className={style.container} initial={{x: 100, y:60}} animate={{ x, y }} transition={{ delay: animationDelay / 100 }}>
+    <motion.div
+      className={[style.container, ...classNames].join(' ')}
+      initial={{ x: 100, y: 60 }}
+      animate={{ x, y }}
+      transition={{ delay: animationDelay / 100 }}
+    >
       <p>{number}</p>
     </motion.div>
   );
