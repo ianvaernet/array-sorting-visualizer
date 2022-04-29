@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { insertionSort, selectionSort } from '../../algorithms';
+import { binarySort } from '../../algorithms/binarySort';
 import { BubbleSort } from '../../algorithms/BubbleSort';
 import { Button, Input, LabeledInput, Select } from '../../components';
 import { generateArrayOfRandomNumbers, useMove } from '../../functions';
@@ -16,7 +17,7 @@ type Props = {
 
 const algorithms = {
   [SortingAlgorithms.BubbleSort]: BubbleSort,
-  [SortingAlgorithms.BinaryInsertionSort]: insertionSort,
+  [SortingAlgorithms.BinaryInsertionSort]: binarySort,
   [SortingAlgorithms.InsertionSort]: insertionSort,
   [SortingAlgorithms.SelectionSort]: selectionSort,
 };
