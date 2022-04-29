@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { insertionSort } from '../../algorithms';
+import { insertionSort, selectionSort } from '../../algorithms';
+import { BubbleSort } from '../../algorithms/BubbleSort';
 import { Button, Input, LabeledInput, Select } from '../../components';
-import { generateArrayOfRandomNumbers } from '../../functions';
+import { generateArrayOfRandomNumbers, useMove } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
+import './title.css';
 
 type Props = {
   array: Block[];
@@ -12,23 +14,35 @@ type Props = {
   handleAnimationDelayChange: ({ target }: { target: HTMLInputElement }) => void;
 };
 
+const algorithms = {
+  [SortingAlgorithms.BubbleSort]: BubbleSort,
+  [SortingAlgorithms.BinaryInsertionSort]: insertionSort,
+  [SortingAlgorithms.InsertionSort]: insertionSort,
+  [SortingAlgorithms.SelectionSort]: selectionSort,
+};
+
 export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handleAnimationDelayChange }: Props) => {
   const [arrayLength, setArrayLength] = useState<number>(0);
   const [isAnimationRunning, setAnimationRunning] = useState(false);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<SortingAlgorithms>(SortingAlgorithms.BubbleSort);
+  const move = useMove(array, setArray, animationDelay);
 
   const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
     const length = parseInt(target.value);
-    setArrayLength(length);
-    setArray(generateArrayOfRandomNumbers({ length }));
+    if (length > 0) {
+      setArrayLength(length);
+      setArray(generateArrayOfRandomNumbers({ length }));
+    }
   };
 
   const sortArray = () => {
     setAnimationRunning(true);
-    insertionSort(array, setArray, animationDelay).then(() => setAnimationRunning(false));
+    algorithms[selectedAlgorithm](array, move).then(() => setAnimationRunning(false));
   };
 
   return (
     <header className={style.header}>
+      <h1 className='title'><b>Array sorting visualizer</b></h1>
       <div className={style.inputContainer}>
         <LabeledInput label="Enter the array length:">
           <Input
@@ -41,7 +55,13 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
         </LabeledInput>
       </div>
       <LabeledInput label="Select the sorting algorithm:">
-        <Select id="sortingAlgorithmSelect" options={Object.values(SortingAlgorithms)} disabled={isAnimationRunning} />
+        <Select
+          id="sortingAlgorithmSelect"
+          options={Object.values(SortingAlgorithms)}
+          disabled={isAnimationRunning}
+          value={selectedAlgorithm}
+          onChange={({ target }) => setSelectedAlgorithm(target.value as SortingAlgorithms)}
+        />
       </LabeledInput>
       <div className={style.inputContainer}>
         <LabeledInput label="Enter the animation delay level:">

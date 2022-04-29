@@ -1,53 +1,47 @@
-import { Block } from '../types';
+import { Block, Sleep, UpdateBlocksArray, UseMove } from '../types';
 import { sleep } from './sleep';
 
 const WIDTH = 65;
 
-const updateBlocksArray = (
+type UpdateArray = (blocksArray: Block[]) => ReturnType<Sleep>;
+type MoveDirection = (
   blocksArray: Block[],
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
-  animationDelay: number
-) => {
+  position: number,
+  updateBlocksArray: UpdateArray,
+  movements?: number
+) => ReturnType<UpdateArray>;
+
+const updateBlocksArray: UpdateBlocksArray = (blocksArray, setArray, animationDelay) => {
   setArray(blocksArray.slice());
   return sleep(40 * animationDelay);
 };
 
-export const moveUp = (
-  blocksArray: Block[],
-  position: number,
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
-  animationDelay: number
-) => {
-  blocksArray[position].y -= WIDTH;
-  return updateBlocksArray(blocksArray, setArray, animationDelay);
+const moveUp: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].y -= WIDTH * movements;
+  return updateBlocksArray(blocksArray);
 };
 
-export const moveDown = (
-  blocksArray: Block[],
-  position: number,
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
-  animationDelay: number
-) => {
-  blocksArray[position].y += WIDTH;
-  return updateBlocksArray(blocksArray, setArray, animationDelay);
+const moveDown: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].y += WIDTH * movements;
+  return updateBlocksArray(blocksArray);
 };
 
-export const moveLeft = (
-  blocksArray: Block[],
-  position: number,
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
-  animationDelay: number
-) => {
-  blocksArray[position].x -= WIDTH;
-  return updateBlocksArray(blocksArray, setArray, animationDelay);
+const moveLeft: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].x -= WIDTH * movements;
+  return updateBlocksArray(blocksArray);
 };
 
-export const moveRight = (
-  blocksArray: Block[],
-  position: number,
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>,
-  animationDelay: number
-) => {
-  blocksArray[position].x += WIDTH;
-  return updateBlocksArray(blocksArray, setArray, animationDelay);
+const moveRight: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
+  blocksArray[position].x += WIDTH * movements;
+  return updateBlocksArray(blocksArray);
+};
+
+export const useMove: UseMove = (blocksArray, setArray, animationDelay) => {
+  const updateArray = () => updateBlocksArray(blocksArray, setArray, animationDelay);
+  return {
+    moveUp: (position, movements) => moveUp(blocksArray, position, updateArray, movements),
+    moveDown: (position, movements) => moveDown(blocksArray, position, updateArray, movements),
+    moveLeft: (position, movements) => moveLeft(blocksArray, position, updateArray, movements),
+    moveRight: (position, movements) => moveRight(blocksArray, position, updateArray, movements),
+  };
 };

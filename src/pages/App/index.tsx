@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { ArrayBlock, Header, Title } from '../../components';
 import { Block } from '../../types';
-import './style.module.css';
-import { motion } from 'framer-motion';
+import style from './style.module.css';
 
 export const App = () => {
   const [array, setArray] = useState<Block[]>([]);
@@ -10,12 +9,12 @@ export const App = () => {
 
   const handleAnimationDelayChange = ({ target }: { target: HTMLInputElement }) => {
     const delayLevel = parseInt(target.value);
-    if (delayLevel > 1) setAnimationDelay(delayLevel);
+    if (delayLevel > 0) setAnimationDelay(delayLevel);
   };
 
   return (
-    <div className="app_container">
-      <Title/>
+    <div className={style.app_container}>
+      <Title />
       <Header
         array={array}
         setArray={setArray}
@@ -23,11 +22,11 @@ export const App = () => {
         handleAnimationDelayChange={handleAnimationDelayChange}
       />
       <main>
-        <motion.div initial={{x:200}}>
+        <div className={style.array_container}>
           {array.map(({ key, number, x, y }) => (
             <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} />
           ))}
-        </motion.div>
+        </div>
       </main>
     </div>
   );
