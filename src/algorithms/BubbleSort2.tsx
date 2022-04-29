@@ -4,8 +4,8 @@ import { Block, UseMove } from '../types';
 export const bubbleSort = async (blocksArray: Block[], { moveUp, moveDown, moveLeft, moveRight }: ReturnType<UseMove>) => {
   const array = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
   const length = array.length;
-  let elementsSwapped = false;
   for (let step = 0; step < length - 1; step++) {
+    let elementsSwapped = false;
     for (let indexToCompare = 0; indexToCompare < length - step - 1; indexToCompare++) {
       const leftPosition = array[indexToCompare].originalPosition;
       const rightPosition = array[indexToCompare + 1].originalPosition;
