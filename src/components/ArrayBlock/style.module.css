@@ -1,8 +1,11 @@
 .container {
   display: inline-flex;
   border-radius: 5px;
+  padding-top: 600px;
   border: 1px solid black;
   padding: 0px 20px;
   width: 65px;
   justify-content: center;
+  background: #D9B2A9;
+  color: white;
 }
