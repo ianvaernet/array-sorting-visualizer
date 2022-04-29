@@ -1,5 +1,5 @@
-import { Block, Sleep, UpdateBlocksArray, UseMove } from '../types';
-import { sleep } from './sleep';
+import { Block, Sleep, UseMove } from '../types';
+import { updateBlocksArray } from './updateBlocksArray';
 
 const WIDTH = 65;
 
@@ -10,11 +10,6 @@ type MoveDirection = (
   updateBlocksArray: UpdateArray,
   movements?: number
 ) => ReturnType<UpdateArray>;
-
-const updateBlocksArray: UpdateBlocksArray = (blocksArray, setArray, animationDelay) => {
-  setArray(blocksArray.slice());
-  return sleep(40 * animationDelay);
-};
 
 const moveUp: MoveDirection = (blocksArray, position, updateBlocksArray, movements = 1) => {
   blocksArray[position].y -= WIDTH * movements;

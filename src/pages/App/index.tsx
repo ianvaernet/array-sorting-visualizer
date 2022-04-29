@@ -23,8 +23,8 @@ export const App = () => {
       />
       <main>
         <div className={style.array_container}>
-          {array.map(({ key, number, x, y }) => (
-            <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} />
+          {array.map(({ key, number, x, y, classNames }) => (
+            <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} classNames={classNames} />
           ))}
         </div>
       </main>
