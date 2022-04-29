@@ -23,6 +23,7 @@ const algorithms = {
 export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handleAnimationDelayChange }: Props) => {
   const [arrayLength, setArrayLength] = useState<number>(0);
   const [isAnimationRunning, setAnimationRunning] = useState(false);
+  const [isResetNeeded, setResetNeeded] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<SortingAlgorithms>(SortingAlgorithms.BubbleSort);
   const move = useMove(array, setArray, animationDelay);
   const focus = useFocus(array, setArray, animationDelay);
@@ -33,10 +34,17 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
       setArrayLength(length);
       setArray(generateBlocksArray({ length }));
     }
+    setResetNeeded(false);
+  };
+
+  const reset = () => {
+    setArray(generateBlocksArray({ length: arrayLength }));
+    setResetNeeded(false);
   };
 
   const sortArray = () => {
     setAnimationRunning(true);
+    setResetNeeded(true);
     algorithms[selectedAlgorithm](array, move, focus).then(() => setAnimationRunning(false));
   };
 
@@ -73,12 +81,13 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
             value={animationDelay}
             onChange={handleAnimationDelayChange}
             disabled={isAnimationRunning}
+            min={0.1}
           />
         </LabeledInput>
       </div>
       <div className={style.inputContainer}>
-        <Button onClick={sortArray} disabled={isAnimationRunning}>
-          Play
+        <Button onClick={isResetNeeded ? reset : sortArray} disabled={isAnimationRunning}>
+          {isResetNeeded ? 'Reset' : 'Play'}
         </Button>
       </div>
     </header>

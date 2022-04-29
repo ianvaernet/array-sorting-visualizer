@@ -5,11 +5,11 @@ import style from './style.module.css';
 
 export const App = () => {
   const [array, setArray] = useState<Block[]>([]);
-  const [animationDelay, setAnimationDelay] = useState(1);
+  const [animationDelay, setAnimationDelay] = useState(10);
 
   const handleAnimationDelayChange = ({ target }: { target: HTMLInputElement }) => {
-    const delayLevel = parseInt(target.value);
-    if (delayLevel > 0) setAnimationDelay(delayLevel);
+    const delayLevel = parseFloat(target.value);
+    setAnimationDelay(delayLevel);
   };
 
   return (
