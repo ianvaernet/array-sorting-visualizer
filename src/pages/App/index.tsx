@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { binarySort, bubbleSort, insertionSort, selectionSort } from '../../algorithms';
+import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort } from '../../algorithms';
 import { ArrayBlock, Header, Title } from '../../components';
 import { generateBlocksArray, useFocus, useMove } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
@@ -10,6 +10,7 @@ const algorithms = {
   [SortingAlgorithms.BinaryInsertionSort]: binarySort,
   [SortingAlgorithms.InsertionSort]: insertionSort,
   [SortingAlgorithms.SelectionSort]: selectionSort,
+  [SortingAlgorithms.MergeSort]: mergeSort,
 };
 
 export const App = () => {
