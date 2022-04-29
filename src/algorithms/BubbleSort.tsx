@@ -1,28 +1,25 @@
-import { Block, UseMove } from "../types"
+import { swap } from '../functions';
+import { Block, UseMove } from '../types';
 
-export const BubbleSort = async (blocksArray: Block[], { moveUp, moveDown, moveLeft, moveRight }: ReturnType<UseMove>) => {
-
+export const bubbleSort = async (blocksArray: Block[], { moveUp, moveDown, moveLeft, moveRight }: ReturnType<UseMove>) => {
   const array = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
   const length = array.length;
-  for (let indexToSort = 0; indexToSort < length - 1 ; indexToSort++) {
-    let elementToSort = array[indexToSort];
-    await moveDown(elementToSort.originalPosition);
-    for (let indexToCompare = 0; indexToCompare < length - 1; indexToCompare++) {
-      if (array[indexToCompare].number >  array[indexToCompare + 1].number) {
-        
-        var swap = array[indexToCompare];
-        array[indexToCompare] = array[indexToCompare + 1 ]
-        array[indexToCompare + 1 ] = swap;
-        await moveRight(array[indexToCompare+1].originalPosition);
-        await moveLeft(swap.originalPosition);
-        indexToCompare--
+  for (let step = 0; step < length - 1; step++) {
+    let elementsSwapped = false;
+    for (let indexToCompare = 0; indexToCompare < length - step - 1; indexToCompare++) {
+      const leftPosition = array[indexToCompare].originalPosition;
+      const rightPosition = array[indexToCompare + 1].originalPosition;
+      moveUp(leftPosition);
+      await moveDown(rightPosition);
+      if (array[indexToCompare].number > array[indexToCompare + 1].number) {
+        elementsSwapped = true;
+        swap(array, indexToCompare, indexToCompare + 1);
+        moveRight(leftPosition);
+        await moveLeft(rightPosition);
       }
+      moveUp(rightPosition);
+      await moveDown(leftPosition);
     }
-    
-
-    await moveUp(elementToSort.originalPosition);
-    
+    if (!elementsSwapped) break;
   }
-  return blocksArray;
-
 };

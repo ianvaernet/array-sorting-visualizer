@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { insertionSort, selectionSort } from '../../algorithms';
-import { binarySort } from '../../algorithms/binarySort';
-import { BubbleSort } from '../../algorithms/BubbleSort';
+import { binarySort, bubbleSort, insertionSort, selectionSort } from '../../algorithms';
 import { Button, Input, LabeledInput, Select } from '../../components';
-import { generateArrayOfRandomNumbers, useMove } from '../../functions';
+import { generateBlocksArray, useFocus, useMove } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 import './title.css';
@@ -16,7 +14,7 @@ type Props = {
 };
 
 const algorithms = {
-  [SortingAlgorithms.BubbleSort]: BubbleSort,
+  [SortingAlgorithms.BubbleSort]: bubbleSort,
   [SortingAlgorithms.BinaryInsertionSort]: binarySort,
   [SortingAlgorithms.InsertionSort]: insertionSort,
   [SortingAlgorithms.SelectionSort]: selectionSort,
@@ -27,23 +25,26 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
   const [isAnimationRunning, setAnimationRunning] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<SortingAlgorithms>(SortingAlgorithms.BubbleSort);
   const move = useMove(array, setArray, animationDelay);
+  const focus = useFocus(array, setArray, animationDelay);
 
   const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
     const length = parseInt(target.value);
     if (length > 0) {
       setArrayLength(length);
-      setArray(generateArrayOfRandomNumbers({ length }));
+      setArray(generateBlocksArray({ length }));
     }
   };
 
   const sortArray = () => {
     setAnimationRunning(true);
-    algorithms[selectedAlgorithm](array, move).then(() => setAnimationRunning(false));
+    algorithms[selectedAlgorithm](array, move, focus).then(() => setAnimationRunning(false));
   };
 
   return (
     <header className={style.header}>
-      <h1 className='title'><b>Array sorting visualizer</b></h1>
+      <h1 className="title">
+        <b>Array sorting visualizer</b>
+      </h1>
       <div className={style.inputContainer}>
         <LabeledInput label="Enter the array length:">
           <Input
