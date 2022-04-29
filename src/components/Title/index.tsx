@@ -10,7 +10,7 @@ export const Title = () => (
         opacity: 0,
       },
       visible: {
-        scale: 1,
+        x: 440,
         opacity: 1,
         transition: {
           delay: 0.4,
@@ -18,6 +18,6 @@ export const Title = () => (
       },
     }}
   >
-    <h1>Array sorting visualizer</h1>
+   
   </motion.div>
 );

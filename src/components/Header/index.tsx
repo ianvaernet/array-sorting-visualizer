@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { insertionSort, selectionSort } from '../../algorithms';
+import { binarySort } from '../../algorithms/binarySort';
+import { BubbleSort } from '../../algorithms/BubbleSort';
 import { Button, Input, LabeledInput, Select } from '../../components';
 import { generateArrayOfRandomNumbers, useMove } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
+import './title.css';
 
 type Props = {
   array: Block[];
@@ -13,8 +16,8 @@ type Props = {
 };
 
 const algorithms = {
-  [SortingAlgorithms.BubbleSort]: insertionSort,
-  [SortingAlgorithms.BinaryInsertionSort]: insertionSort,
+  [SortingAlgorithms.BubbleSort]: BubbleSort,
+  [SortingAlgorithms.BinaryInsertionSort]: binarySort,
   [SortingAlgorithms.InsertionSort]: insertionSort,
   [SortingAlgorithms.SelectionSort]: selectionSort,
 };
@@ -40,6 +43,7 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
 
   return (
     <header className={style.header}>
+      <h1 className='title'><b>Array sorting visualizer</b></h1>
       <div className={style.inputContainer}>
         <LabeledInput label="Enter the array length:">
           <Input
