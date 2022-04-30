@@ -1,12 +1,25 @@
-.app_container {
+.appContainer {
   margin: 30px 30px;
 }
 
-main {
-  white-space: nowrap;
-}
-
-.array_container {
+.arrayContainer {
+  display: flex;
   margin-top: 90px;
   margin-bottom: 20px;
+}
+
+.flexContainer {
+  display: flex;
+  margin: auto;
+}
+
+.splittedArrayLevelContainer {
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.splittedArraysContainer {
+  display: inline-flex;
+  margin-right: 30px;
 }

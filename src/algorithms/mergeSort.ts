@@ -1,17 +1,15 @@
+import { animatedSplit, split } from '../functions';
 import { Block } from '../types';
 
 function merge(
   blocksArray: Block[],
   array: { number: number; originalPosition: number }[],
-  leftIndex: number,
-  middle: number,
-  rightIndex: number
+  L: { number: number; originalPosition: number }[],
+  R: { number: number; originalPosition: number }[],
+  leftIndex: number
 ) {
-  const L = array.slice(leftIndex, middle + 1);
-  const R = array.slice(middle + 1, rightIndex + 1);
   const leftArrayLength = L.length;
   const rightArrayLength = R.length;
-
   let leftArrayIndex = 0;
   let rightArrayIndex = 0;
   let mergedArrayIndex = leftIndex;
@@ -34,21 +32,33 @@ function merge(
     array.splice(mergedArrayIndex, rightArrayLength - rightArrayIndex, ...R.slice(rightArrayIndex));
 }
 
-const mergeSort = (
+const mergeSort = async (
   blocksArray: Block[],
   array: { number: number; originalPosition: number }[],
   leftIndex: number,
-  rightIndex: number
+  rightIndex: number,
+  setSplittedArrayLevels: React.Dispatch<React.SetStateAction<Block[][][]>>,
+  depth: number
 ) => {
-  if (leftIndex >= rightIndex) return;
+  if (leftIndex > rightIndex) return;
   const middle = leftIndex + Math.trunc((rightIndex - leftIndex) / 2);
-  mergeSort(blocksArray, array, leftIndex, middle);
-  mergeSort(blocksArray, array, middle + 1, rightIndex);
-  merge(blocksArray, array, leftIndex, middle, rightIndex);
+  await animatedSplit(blocksArray, setSplittedArrayLevels, leftIndex, middle, rightIndex, depth);
+  if (leftIndex === rightIndex) return;
+
+  mergeSort(blocksArray, array, leftIndex, middle, setSplittedArrayLevels, depth + 1);
+  mergeSort(blocksArray, array, middle + 1, rightIndex, setSplittedArrayLevels, depth + 1);
+
+  const [L, R] = split(array, leftIndex, middle, rightIndex);
+  merge(blocksArray, array, L, R, leftIndex);
 };
 
-export const invokeMergeSort = async (blocksArray: Block[]) => {
+export const invokeMergeSort = async (
+  blocksArray: Block[],
+  _: any,
+  __: any,
+  setSplittedArrayLevels: React.Dispatch<React.SetStateAction<Block[][][]>>
+) => {
   const arrayToSort = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
-  mergeSort(blocksArray, arrayToSort, 0, blocksArray.length - 1);
-  console.log(arrayToSort);
+  await mergeSort(blocksArray, arrayToSort, 0, blocksArray.length - 1, setSplittedArrayLevels, 0);
+  // console.log(arrayToSort);
 };

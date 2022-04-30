@@ -15,7 +15,7 @@ const algorithms = {
 
 export const App = () => {
   const [array, setArray] = useState<Block[]>([]);
-  const [splittedArrays, setSplittedArrays] = useState<Block[][]>([]);
+  const [splittedArrayLevels, setSplittedArrayLevels] = useState<Block[][][]>([]);
   const [arrayLength, setArrayLength] = useState(0);
   const [animationDelay, setAnimationDelay] = useState(10);
   const [isAnimationRunning, setAnimationRunning] = useState(false);
@@ -30,6 +30,7 @@ export const App = () => {
     if (length > 0) {
       setArrayLength(length);
       setArray(generateBlocksArray({ length }));
+      setSplittedArrayLevels([]);
     }
     setResetNeeded(false);
   };
@@ -41,17 +42,18 @@ export const App = () => {
 
   const reset = () => {
     setArray(generateBlocksArray({ length: arrayLength }));
+    setSplittedArrayLevels([]);
     setResetNeeded(false);
   };
 
   const sortArray = () => {
     setAnimationRunning(true);
     setResetNeeded(true);
-    algorithms[selectedAlgorithm](array, move, focus).then(() => setAnimationRunning(false));
+    algorithms[selectedAlgorithm](array, move, focus, setSplittedArrayLevels).then(() => setAnimationRunning(false));
   };
 
   return (
-    <div className={style.app_container}>
+    <div className={style.appContainer}>
       <Title />
       <Header
         arrayLength={arrayLength}
@@ -65,16 +67,24 @@ export const App = () => {
         isAnimationRunning={isAnimationRunning}
       />
       <main>
-        <div className={style.array_container}>
-          {array.map(({ key, number, x, y, classNames }) => (
-            <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} classNames={classNames} />
-          ))}
-        </div>
-        {splittedArrays.map((splittedArray) => (
-          <div className={style.array_container}>
-            {splittedArray.map(({ key, number, x, y, classNames }) => (
+        <div className={style.arrayContainer}>
+          <div className={style.flexContainer}>
+            {array.map(({ key, number, x, y, classNames }) => (
               <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} classNames={classNames} />
             ))}
+          </div>
+        </div>
+        {splittedArrayLevels.map((level, index) => (
+          <div key={'level' + index} className={style.splittedArrayLevelContainer}>
+            <div className={style.flexContainer}>
+              {level.map((splittedArrays, index) => (
+                <div key={'splittedArray' + index} className={style.splittedArraysContainer}>
+                  {splittedArrays.map(({ key, number, x, y, classNames }) => (
+                    <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} classNames={classNames} />
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </main>
