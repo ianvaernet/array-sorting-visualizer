@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort } from '../../algorithms';
 import { ArrayBlock, Header, Title } from '../../components';
 import { generateBlocksArray, useAnimatedSplit, useFocus, useMove } from '../../functions';
+import { createHiddenBlocks } from '../../functions/split';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 
@@ -12,6 +13,8 @@ const algorithms = {
   [SortingAlgorithms.SelectionSort]: selectionSort,
   [SortingAlgorithms.MergeSort]: mergeSort,
 };
+
+const multilevelAlgorithms = [SortingAlgorithms.MergeSort];
 
 export const App = () => {
   const [array, setArray] = useState<Block[]>([]);
@@ -50,9 +53,12 @@ export const App = () => {
   const sortArray = () => {
     setAnimationRunning(true);
     setResetNeeded(true);
-    algorithms[selectedAlgorithm](array, move, focus, animatedSplit, splittedArrayLevels, setSplittedArrayLevels).then(() =>
-      setAnimationRunning(false)
-    );
+    if (multilevelAlgorithms.includes(selectedAlgorithm)) {
+      createHiddenBlocks(array, setArray, setSplittedArrayLevels);
+    }
+    algorithms[selectedAlgorithm](array, move, focus, animatedSplit, setSplittedArrayLevels).then(() => {
+      setAnimationRunning(false);
+    });
   };
 
   return (
