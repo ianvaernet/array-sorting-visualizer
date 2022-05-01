@@ -2,15 +2,18 @@ import deepcopy from 'deepcopy';
 import { Block } from '../types';
 import { sleep } from './sleep';
 
+export type AnimatedSplit = (leftIndex: number, middle: number, rightIndex: number, depth: number) => Promise<void>;
+
 export function split<T>(array: Array<T>, leftIndex: number, middle: number, rightIndex: number) {
   const L = deepcopy(array.slice(leftIndex, middle + 1));
   const R = deepcopy(array.slice(middle + 1, rightIndex + 1));
   return [L, R];
 }
 
-export async function animatedSplit(
+async function animatedSplit(
   blocksArray: Block[],
   setSplittedArrayLevels: React.Dispatch<React.SetStateAction<Block[][][]>>,
+  animationDelay: number,
   leftIndex: number,
   middle: number,
   rightIndex: number,
@@ -30,5 +33,14 @@ export async function animatedSplit(
       return [...upperLevels, currentLevel, ...lowerLevels];
     }
   });
-  if (leftIndex < rightIndex) await sleep(600);
+  if (leftIndex < rightIndex) await sleep(animationDelay * 100);
 }
+
+export const useAnimatedSplit = (
+  blocksArray: Block[],
+  setSplittedArrayLevels: React.Dispatch<React.SetStateAction<Block[][][]>>,
+  animationDelay: number
+): AnimatedSplit => {
+  return (leftIndex: number, middle: number, rightIndex: number, depth: number) =>
+    animatedSplit(blocksArray, setSplittedArrayLevels, animationDelay, leftIndex, middle, rightIndex, depth);
+};

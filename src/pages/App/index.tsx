@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort } from '../../algorithms';
 import { ArrayBlock, Header, Title } from '../../components';
-import { generateBlocksArray, useFocus, useMove } from '../../functions';
+import { generateBlocksArray, useAnimatedSplit, useFocus, useMove } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 
@@ -24,6 +24,7 @@ export const App = () => {
 
   const move = useMove(array, setArray, animationDelay);
   const focus = useFocus(array, setArray, animationDelay);
+  const animatedSplit = useAnimatedSplit(array, setSplittedArrayLevels, animationDelay);
 
   const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
     const length = parseInt(target.value);
@@ -49,7 +50,9 @@ export const App = () => {
   const sortArray = () => {
     setAnimationRunning(true);
     setResetNeeded(true);
-    algorithms[selectedAlgorithm](array, move, focus, setSplittedArrayLevels).then(() => setAnimationRunning(false));
+    algorithms[selectedAlgorithm](array, move, focus, animatedSplit, splittedArrayLevels, setSplittedArrayLevels).then(() =>
+      setAnimationRunning(false)
+    );
   };
 
   return (

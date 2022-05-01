@@ -21,5 +21,6 @@
 
 .splittedArraysContainer {
   display: inline-flex;
-  margin-right: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
 }

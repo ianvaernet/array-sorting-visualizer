@@ -13,3 +13,11 @@
   background: yellow;
   color: #000;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
