@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort } from '../../algorithms';
-import { ArrayBlock, Header, Title } from '../../components';
-import { generateBlocksArray, useAnimatedSplit, useFocus, useMove } from '../../functions';
-import { createHiddenBlocks } from '../../functions/split';
+import { ArrayBlock, Header } from '../../components';
+import { createHiddenBlocks, generateBlocksArray, useFocus, useMove, useSplitAndMergeAnimations } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 
@@ -27,7 +26,7 @@ export const App = () => {
 
   const move = useMove(array, setArray, animationDelay);
   const focus = useFocus(array, setArray, animationDelay);
-  const animatedSplit = useAnimatedSplit(array, setSplittedArrayLevels, animationDelay);
+  const splitAndMerge = useSplitAndMergeAnimations(setSplittedArrayLevels, animationDelay);
 
   const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
     const length = parseInt(target.value);
@@ -56,14 +55,13 @@ export const App = () => {
     if (multilevelAlgorithms.includes(selectedAlgorithm)) {
       createHiddenBlocks(array, setArray, setSplittedArrayLevels);
     }
-    algorithms[selectedAlgorithm](array, move, focus, animatedSplit, setSplittedArrayLevels).then(() => {
+    algorithms[selectedAlgorithm](array, move, focus, splitAndMerge).then(() => {
       setAnimationRunning(false);
     });
   };
 
   return (
     <div className={style.appContainer}>
-      <Title />
       <Header
         arrayLength={arrayLength}
         handleArrayLengthChange={handleArrayLengthChange}
