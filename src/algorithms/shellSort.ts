@@ -1,32 +1,31 @@
 import { Block, UseMove } from '../types';
-import { shellSwap } from '../functions/shellSwap';
 
-export const shellSort = async (blocksArray: Block[], { moveUp, moveDown, moveLeft, moveRight }: ReturnType<UseMove>) => {
+function half(n: number) {
+  return Math.floor(n / 2);
+}
+
+export async function shellSort(blocksArray: Block[], { moveUp, moveDown, moveLeft, moveRight }: ReturnType<UseMove>) {
   const array = blocksArray.map(({ number }, index) => ({ number, originalPosition: index }));
-  const length = array.length;
-  let increment = length / 2;
-
-  for (let step = 1; step < length ; step++) {
-    let elementsSwapped = false;
-    for (let indexToCompare = 0; indexToCompare < length - step - 1; indexToCompare++) {
-      const leftPosition = array[indexToCompare].originalPosition;
-      const rightPosition = array[indexToCompare + increment].originalPosition;
-      let temp = array[indexToCompare].number;
-      moveUp(leftPosition);
-      await moveDown(rightPosition);
-      while (indexToCompare >= -1 && array[indexToCompare].number > array[indexToCompare + increment].number) {
-        elementsSwapped = true;
-        shellSwap(array, indexToCompare, indexToCompare + 1 );
-        await moveRight(leftPosition);
-        await moveLeft(rightPosition );
-        temp  = temp - increment;
+  let length = array.length;
+  for (let gap = half(length); gap > 0; gap = half(gap)) {
+    for (let rightIndex = gap; rightIndex < length; rightIndex++) {
+      let temp = array[rightIndex];
+      let leftIndex = rightIndex;
+      moveDown(temp.originalPosition);
+      if (!(array[leftIndex - gap].number > temp.number)) {
+        await moveUp(array[leftIndex - gap].originalPosition);
+        moveDown(array[leftIndex - gap].originalPosition);
       }
-      moveUp(rightPosition);
-      await moveDown(leftPosition);
-     
+      while (leftIndex >= gap && array[leftIndex - gap].number > temp.number) {
+        array[leftIndex] = array[leftIndex - gap];
+        await moveUp(array[leftIndex - gap].originalPosition);
+        moveLeft(temp.originalPosition, gap);
+        await moveRight(array[leftIndex].originalPosition, gap);
+        moveDown(array[leftIndex - gap].originalPosition);
+        leftIndex -= gap;
+      }
+      await moveUp(temp.originalPosition);
+      array[leftIndex] = temp;
     }
-    if (!elementsSwapped) break;
   }
-
-
-};
+}

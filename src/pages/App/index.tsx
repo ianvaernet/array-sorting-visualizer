@@ -12,13 +12,13 @@ const algorithms = {
   [SortingAlgorithms.InsertionSort]: insertionSort,
   [SortingAlgorithms.SelectionSort]: selectionSort,
   [SortingAlgorithms.MergeSort]: mergeSort,
-  [SortingAlgorithms.ShellSort]: shellSort
+  [SortingAlgorithms.ShellSort]: shellSort,
 };
 
 const multilevelAlgorithms = [SortingAlgorithms.MergeSort];
 
 export const App = () => {
-  const [array, setArray] = useState<Block[]>([]);
+  const [blocksArray, setBlocksArray] = useState<Block[]>([]);
   const [splittedArrayLevels, setSplittedArrayLevels] = useState<Block[][][]>([]);
   const [arrayLength, setArrayLength] = useState(0);
   const [animationDelay, setAnimationDelay] = useState(10);
@@ -26,15 +26,15 @@ export const App = () => {
   const [isResetNeeded, setResetNeeded] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<SortingAlgorithms>(SortingAlgorithms.BubbleSort);
 
-  const move = useMove(array, setArray, animationDelay);
-  const focus = useFocus(array, setArray, animationDelay);
+  const move = useMove(blocksArray, setBlocksArray, animationDelay);
+  const focus = useFocus(blocksArray, setBlocksArray, animationDelay);
   const splitAndMerge = useSplitAndMergeAnimations(setSplittedArrayLevels, animationDelay);
 
   const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
     const length = parseInt(target.value);
     if (length > 0) {
       setArrayLength(length);
-      setArray(generateBlocksArray({ length }));
+      setBlocksArray(generateBlocksArray({ length }));
       setSplittedArrayLevels([]);
     }
     setResetNeeded(false);
@@ -46,7 +46,7 @@ export const App = () => {
   };
 
   const reset = () => {
-    setArray(generateBlocksArray({ length: arrayLength }));
+    setBlocksArray(generateBlocksArray({ length: arrayLength }));
     setSplittedArrayLevels([]);
     setResetNeeded(false);
   };
@@ -55,9 +55,9 @@ export const App = () => {
     setAnimationRunning(true);
     setResetNeeded(true);
     if (multilevelAlgorithms.includes(selectedAlgorithm)) {
-      createHiddenBlocks(array, setArray, setSplittedArrayLevels);
+      createHiddenBlocks(blocksArray, setBlocksArray, setSplittedArrayLevels);
     }
-    algorithms[selectedAlgorithm](array, move, focus, splitAndMerge).then(() => {
+    algorithms[selectedAlgorithm](blocksArray, move, focus, splitAndMerge).then(() => {
       setAnimationRunning(false);
     });
   };
@@ -78,7 +78,7 @@ export const App = () => {
       <main>
         <div className={style.arrayContainer}>
           <div className={style.flexContainer}>
-            {array.map(({ key, number, x, y, classNames }) => (
+            {blocksArray.map(({ key, number, x, y, classNames }) => (
               <ArrayBlock key={key} number={number} x={x} y={y} animationDelay={animationDelay} classNames={classNames} />
             ))}
           </div>
