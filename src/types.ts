@@ -4,6 +4,7 @@ export enum SortingAlgorithms {
   InsertionSort = 'Insertion Sort',
   SelectionSort = 'Selection Sort',
   MergeSort = 'Merge Sort',
+  ShellSort = 'Shell Sort'
 }
 
 export type Block = {

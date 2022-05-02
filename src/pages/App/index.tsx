@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort } from '../../algorithms';
+import { shellSort } from '../../algorithms/shellSort';
 import { ArrayBlock, Header } from '../../components';
 import { createHiddenBlocks, generateBlocksArray, useFocus, useMove, useSplitAndMergeAnimations } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
@@ -11,6 +12,7 @@ const algorithms = {
   [SortingAlgorithms.InsertionSort]: insertionSort,
   [SortingAlgorithms.SelectionSort]: selectionSort,
   [SortingAlgorithms.MergeSort]: mergeSort,
+  [SortingAlgorithms.ShellSort]: shellSort
 };
 
 const multilevelAlgorithms = [SortingAlgorithms.MergeSort];
