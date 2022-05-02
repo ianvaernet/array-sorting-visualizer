@@ -9,7 +9,7 @@ export const insertionSort = async (blocksArray: Block[], { moveUp, moveDown, mo
     let indexToCompare = indexToSort - 1;
     while (indexToCompare > -1 && elementToSort.number < array[indexToCompare].number) {
       array[indexToCompare + 1] = array[indexToCompare];
-      await moveRight(array[indexToCompare].originalPosition);
+      moveRight(array[indexToCompare].originalPosition);
       await moveLeft(elementToSort.originalPosition);
       indexToCompare--;
     }

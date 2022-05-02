@@ -3,6 +3,7 @@ export enum SortingAlgorithms {
   BinaryInsertionSort = 'Binary Insertion Sort',
   InsertionSort = 'Insertion Sort',
   SelectionSort = 'Selection Sort',
+  MergeSort = 'Merge Sort',
 }
 
 export type Block = {

@@ -2,6 +2,20 @@
   margin-bottom: 10px;
 }
 
+.title {
+  color: black;
+  font-size: 35px;
+  padding: 0px 0px 0px 32%;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  right: 50%;
+  background-color: #2a708c;
+  color: white;
+  border-radius: 5px;
+  letter-spacing: 2px;
+}
+
 .inputContainer {
   margin-top: 20px;
   margin-bottom: 20px;

@@ -1,48 +1,34 @@
-import React, { useState } from 'react';
-import { binarySort, bubbleSort, insertionSort, selectionSort } from '../../algorithms';
+import React from 'react';
 import { Button, Input, LabeledInput, Select } from '../../components';
-import { generateBlocksArray, useFocus, useMove } from '../../functions';
-import { Block, SortingAlgorithms } from '../../types';
+import { SortingAlgorithms } from '../../types';
 import style from './style.module.css';
-import './title.css';
 
 type Props = {
-  array: Block[];
-  setArray: React.Dispatch<React.SetStateAction<Block[]>>;
+  arrayLength: number;
+  handleArrayLengthChange: ({ target }: { target: HTMLInputElement }) => void;
+  selectedAlgorithm: SortingAlgorithms;
+  setSelectedAlgorithm: (algorithm: SortingAlgorithms) => void;
   animationDelay: number;
   handleAnimationDelayChange: ({ target }: { target: HTMLInputElement }) => void;
+  handleButtonClick: () => void;
+  buttonText: string;
+  isAnimationRunning: boolean;
 };
 
-const algorithms = {
-  [SortingAlgorithms.BubbleSort]: bubbleSort,
-  [SortingAlgorithms.BinaryInsertionSort]: binarySort,
-  [SortingAlgorithms.InsertionSort]: insertionSort,
-  [SortingAlgorithms.SelectionSort]: selectionSort,
-};
-
-export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handleAnimationDelayChange }: Props) => {
-  const [arrayLength, setArrayLength] = useState<number>(0);
-  const [isAnimationRunning, setAnimationRunning] = useState(false);
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<SortingAlgorithms>(SortingAlgorithms.BubbleSort);
-  const move = useMove(array, setArray, animationDelay);
-  const focus = useFocus(array, setArray, animationDelay);
-
-  const handleArrayLengthChange = ({ target }: { target: HTMLInputElement }) => {
-    const length = parseInt(target.value);
-    if (length > 0) {
-      setArrayLength(length);
-      setArray(generateBlocksArray({ length }));
-    }
-  };
-
-  const sortArray = () => {
-    setAnimationRunning(true);
-    algorithms[selectedAlgorithm](array, move, focus).then(() => setAnimationRunning(false));
-  };
-
+export const Header: React.FC<Props> = ({
+  arrayLength,
+  handleArrayLengthChange,
+  animationDelay,
+  handleAnimationDelayChange,
+  selectedAlgorithm,
+  setSelectedAlgorithm,
+  handleButtonClick,
+  buttonText,
+  isAnimationRunning,
+}: Props) => {
   return (
     <header className={style.header}>
-      <h1 className="title">
+      <h1 className={style.title}>
         <b>Array sorting visualizer</b>
       </h1>
       <div className={style.inputContainer}>
@@ -73,12 +59,13 @@ export const Header: React.FC<Props> = ({ array, setArray, animationDelay, handl
             value={animationDelay}
             onChange={handleAnimationDelayChange}
             disabled={isAnimationRunning}
+            min={0.1}
           />
         </LabeledInput>
       </div>
       <div className={style.inputContainer}>
-        <Button onClick={sortArray} disabled={isAnimationRunning}>
-          Play
+        <Button onClick={handleButtonClick} disabled={isAnimationRunning}>
+          {buttonText}
         </Button>
       </div>
     </header>
