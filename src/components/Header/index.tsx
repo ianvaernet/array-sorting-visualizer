@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Input, LabeledInput, Select } from '../../components';
 import { SortingAlgorithms } from '../../types';
 import style from './style.module.css';
-import './title.css';
 
 type Props = {
   arrayLength: number;
@@ -29,7 +28,7 @@ export const Header: React.FC<Props> = ({
 }: Props) => {
   return (
     <header className={style.header}>
-      <h1 className="title">
+      <h1 className={style.title}>
         <b>Array sorting visualizer</b>
       </h1>
       <div className={style.inputContainer}>
