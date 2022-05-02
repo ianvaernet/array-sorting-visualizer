@@ -11,7 +11,7 @@ export const binarySort = async (blocksArray: Block[], { moveUp, moveDown, moveL
     let indexToCompare = indexToSort - 1;
     let elementToSort = array[indexToSort];
     await moveDown(elementToSort.originalPosition);
-    while (indexToCompare > -1 && elementToSort.number < array[indexToCompare].number) {
+    while (indexToCompare >= mid && elementToSort.number < array[indexToCompare].number) {
       array[indexToCompare + 1] = array[indexToCompare];
       moveRight(array[indexToCompare].originalPosition);
       await moveLeft(elementToSort.originalPosition);
