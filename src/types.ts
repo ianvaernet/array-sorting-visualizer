@@ -1,9 +1,9 @@
 export enum SortingAlgorithms {
-  BubbleSort = 'Bubble Sort',
   BinaryInsertionSort = 'Binary Insertion Sort',
+  BubbleSort = 'Bubble Sort',
   InsertionSort = 'Insertion Sort',
-  SelectionSort = 'Selection Sort',
   MergeSort = 'Merge Sort',
+  SelectionSort = 'Selection Sort',
   ShellSort = 'Shell Sort'
 }
 

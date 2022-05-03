@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort } from '../../algorithms';
-import { shellSort } from '../../algorithms/shellSort';
+import { binarySort, bubbleSort, insertionSort, mergeSort, selectionSort, shellSort } from '../../algorithms';
 import { ArrayBlock, Header } from '../../components';
 import { createHiddenBlocks, generateBlocksArray, useFocus, useMove, useSplitAndMergeAnimations } from '../../functions';
 import { Block, SortingAlgorithms } from '../../types';
 import style from './style.module.css';
 
 const algorithms = {
-  [SortingAlgorithms.BubbleSort]: bubbleSort,
   [SortingAlgorithms.BinaryInsertionSort]: binarySort,
+  [SortingAlgorithms.BubbleSort]: bubbleSort,
   [SortingAlgorithms.InsertionSort]: insertionSort,
-  [SortingAlgorithms.SelectionSort]: selectionSort,
   [SortingAlgorithms.MergeSort]: mergeSort,
+  [SortingAlgorithms.SelectionSort]: selectionSort,
   [SortingAlgorithms.ShellSort]: shellSort,
 };
 

@@ -3,3 +3,4 @@ export { binarySort } from './binarySort';
 export { insertionSort } from './insertionSort';
 export { invokeMergeSort as mergeSort } from './mergeSort';
 export { selectionSort } from './selectionSort';
+export { shellSort } from './shellSort';
